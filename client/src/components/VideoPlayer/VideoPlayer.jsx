@@ -20,10 +20,12 @@ const VideoPlayer = () => {
     Name,
     translate,
     toogleTranslate,
+    testSpeak,
   } = useContext(SocketContext);
 
   return (
     <Grid container className="gridContainer">
+      <button onClick={testSpeak}>Test Speak</button>
       {/* OWN Video */}
       {callAccepted && (
         <Grid

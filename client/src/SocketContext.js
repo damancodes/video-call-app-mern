@@ -2,11 +2,11 @@ import React, { createContext, useState, useRef, useEffect } from "react"
 import { io } from "socket.io-client"
 import Peer from "simple-peer"
 import process from "process/browser"
-import { Buffer } from "buffer"
+// import { Buffer } from "buffer"
 console.log("peer support ", Peer.WEBRTC_SUPPORT)
 
 window.global = window
-window.Buffer = Buffer
+// window.Buffer = Buffer
 window.process = process
 
 const SpeechRecognition =
@@ -53,6 +53,12 @@ const ContextProvider = ({ children }) => {
       setCall({ isReceivedCall: true, from, name: callerName, signal })
     })
   }, [])
+
+  const testSpeak = () => {
+    const utterance = new SpeechSynthesisUtterance("hello testing ")
+    utterance.lang = "en-US"
+    speechSynthesis.speak(utterance)
+  }
 
   // console.log(me);
 
@@ -182,6 +188,7 @@ const ContextProvider = ({ children }) => {
         translate,
         setTranslate,
         toogleTranslate,
+        testSpeak,
       }}
     >
       {children}
