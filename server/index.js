@@ -1,17 +1,23 @@
+const express = require("express")
 const app = require("express")()
 const server = require("http").createServer(app)
+const dotenv = require("dotenv")
+const { Server } = require("socket.io")
+const axios = require("axios")
+
+dotenv.config()
 const cors = require("cors")
 
-const io = require("socket.io")(server, {
+const io = new Server(server, {
   cors: {
     origin: "*",
-    method: ["GET", "POST"],
+    methods: ["GET", "POST"],
   },
 })
+app.use(cors())
+app.use(express.json())
 
 console.log("process.env", process.env.GOOGLE_TRANSLATE_API_KEY)
-
-app.use(cors())
 
 app.get("/", (req, res) => {
   res.send("Welcome to HomePage")

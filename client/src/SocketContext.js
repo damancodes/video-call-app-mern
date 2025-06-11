@@ -18,7 +18,9 @@ recognition.lang = "hi-IN" // Speak in Hindi to get English translation
 
 const SocketContext = createContext()
 
-const socket = io("https://apitranslate.educense.com/")
+const BASEURL = "http://localhost:5050/"
+
+const socket = io(BASEURL)
 
 const ContextProvider = ({ children }) => {
   const [stream, setStream] = useState(null)
@@ -127,19 +129,17 @@ const ContextProvider = ({ children }) => {
         console.log("🗣️ Spoken:", transcript)
 
         try {
-          const res = await fetch(
-            "https://server1-2ovd.onrender.com/translate",
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                text: transcript,
-                targetLang: "en", // Translate to English
-              }),
-            }
-          )
+          const res = await fetch(`${BASEURL}translate`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              text: transcript,
+              targetLang: "en", // Translate to English
+            }),
+          })
 
           const data = await res.json()
+          console.log("data from server ", data)
           const translated = data.translatedText
           console.log("🔊 Translated:", translated)
           connectionRef.current.send(translated)
