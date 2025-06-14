@@ -1,4 +1,4 @@
-import React, { createContext, useState, useRef, useEffect } from "react"
+import React, { createContext, useState, useRef, useEffect ,useContext} from "react"
 import { io } from "socket.io-client"
 import Peer from "simple-peer"
 import process from "process/browser"
@@ -17,8 +17,8 @@ recognition.interimResults = false
 recognition.lang = "hi-IN" // Speak in Hindi to get English translation
 
 const SocketContext = createContext()
-
-const BASEURL = "http://localhost:5050/"
+export const useSocketContext = () =>useContext(SocketContext)
+const BASEURL = "https://translateapi.educense.com/"
 
 const socket = io(BASEURL)
 
@@ -32,6 +32,9 @@ const ContextProvider = ({ children }) => {
   const myVideo = useRef()
   const userVideo = useRef()
   const connectionRef = useRef()
+
+
+const [recognizationResult,setRecognizationResult]  = useState([])
 
   const [translate, setTranslate] = useState(false)
 
@@ -128,9 +131,9 @@ const ContextProvider = ({ children }) => {
     if (newValue && callAccepted) {
       //disablign audio trackf
       recognition.start()
-
       recognition.onresult = async (event) => {
         console.log("event")
+        setRecognizationResult(event.results);
         const transcript = event.results[event.results.length - 1][0].transcript
         console.log("🗣️ Spoken:", transcript)
 
@@ -189,6 +192,7 @@ const ContextProvider = ({ children }) => {
         setTranslate,
         toogleTranslate,
         testSpeak,
+        recognizationResult
       }}
     >
       {children}

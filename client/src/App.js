@@ -4,6 +4,7 @@ import "./App.css"
 import VideoPlayer from "./components/VideoPlayer/VideoPlayer"
 import Options from "./components/Options/Options"
 import Notification from "./components/Notification/Notification"
+import RecognizationResult from "./components/recognizationResults/RecognizationResult"
 
 // const useStyles = makeStyles((theme) => ({
 //   appBar: {
@@ -31,6 +32,7 @@ function App() {
       {/* Video Palyer */}
       <VideoPlayer />
 
+
       {/* Options Component */}
       <div className="app_options">
         <Options>
@@ -38,6 +40,9 @@ function App() {
           <Notification />
         </Options>
       </div>
+
+            <RecognizationResult/>
+
     </div>
   )
 }
